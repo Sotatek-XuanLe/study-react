@@ -48,10 +48,6 @@ const AccountDetail: React.FC<Study> = (
   //   return colorRender
   // })
   const saveData = () => {
-    console.log(prop)
-    console.log(name)
-    console.log(phone)
-    console.log(email)
   };
   // set value name
   const changeName = (data: any) => {
@@ -80,6 +76,7 @@ const AccountDetail: React.FC<Study> = (
       <form >
         <Container>
           <Row>
+        
             <Col md="4">
               <TextField id="name" defaultValue={prop.name} label="FullName" variant="outlined" value={name} onChange={(event) => { changeName(event.target.value) }} />
             </Col>
