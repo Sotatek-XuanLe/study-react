@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Container, Table } from 'react-bootstrap';
+import React, { useState,useEffect} from 'react';
+import { Container, Table,Button } from 'react-bootstrap';
 import { Switch,Route,Link } from 'react-router-dom';
 import './Account.scss';
 
@@ -11,9 +11,10 @@ interface Study {
   email?: string,
 }
 const Account: React.FC<Study> = (
-
+prop,
 ) => {
-
+  useEffect(() => {
+  },[])
   const [data, setData] = useState([
     {
       id: 1,
@@ -31,10 +32,10 @@ const Account: React.FC<Study> = (
     },
     {
       id: 3,
-      account: "hoavt",
-      name: "Vu Thi Hoa",
+      account: "haitq",
+      name: "Tran Quang Hai",
       phone: "0987666555",
-      email: "vuthihoa@gmail.com"
+      email: "tranquanghai@gmail.com"
     }
   ]);
   const deleteItem = (id: any) => {
@@ -45,7 +46,6 @@ const Account: React.FC<Study> = (
   const editItem = (id: any) => {
     console.log('edit', id);
   };
-
   return (
     <div className="account">
       <form >
@@ -53,6 +53,13 @@ const Account: React.FC<Study> = (
           {/* {
             true ? 'a' : 'b'
           } */}
+          <Button>
+          <Link style={{color:'#fff'}} to={
+                        {
+                          pathname:`/account`,
+                        }
+                      }>Add</Link>
+          </Button>
           <Table striped bordered hover>
             <thead>
               <tr>
