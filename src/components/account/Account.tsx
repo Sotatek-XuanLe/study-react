@@ -1,6 +1,10 @@
-import React, { useState,useEffect} from 'react';
-import { Container, Table,Button } from 'react-bootstrap';
-import { Switch,Route,Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Container, Table, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router';
+import { useAppSelector } from '../../store/hook';
+import { useAppDispatch } from '../../store/hook';
+import { getAccountClick } from '../../store/account';
 import './Account.scss';
 
 interface Study {
@@ -11,10 +15,10 @@ interface Study {
   email?: string,
 }
 const Account: React.FC<Study> = (
-prop,
+  prop,
 ) => {
-  useEffect(() => {
-  },[])
+  const [data2] = useState([localStorage.getItem('arrs')]);
+  const [data3] = useState([JSON.parse(localStorage.getItem('arrs') || '') ]);
   const [data, setData] = useState([
     {
       id: 1,
@@ -38,14 +42,53 @@ prop,
       email: "tranquanghai@gmail.com"
     }
   ]);
+  const history = useHistory();
+  const dispatch = useAppDispatch();
+  // nhan data tu component con
+  const objAccount: any = useAppSelector(state => state.account.obj);
+  useEffect(() => {
+    // edit
+    let index = data.findIndex(item => item.id === objAccount.id);
+    if (index > -1) {
+      let objClone = {
+        name: objAccount.name,
+        phone: objAccount.phone,
+        email: objAccount.email,
+      };
+      let dataClone = [...data];
+      dataClone[index].name = objClone.name;
+      dataClone[index].phone = objClone.phone;
+      dataClone[index].email = objClone.email;
+      setData(dataClone)
+    } else {
+      // add
+      if (objAccount && objAccount.name && objAccount.phone && objAccount.email) {
+        let dataCloneAdd = [...data];
+        dataCloneAdd.push(objAccount);
+        setData(dataCloneAdd)
+      }
+    }
+    return (() => {
+      // clean state
+      let obj = {};
+      dispatch(getAccountClick(obj));
+    })
+  }, [])
+
   const deleteItem = (id: any) => {
     var dataClone = [...data.filter(item => item.id !== id)]
     setData(dataClone);
-  }
-
-  const editItem = (id: any) => {
-    console.log('edit', id);
   };
+  const addItem = () => {
+    history.push('/account/new');
+  }
+  const editItem = (id: any) => {
+    let obj: any = data.find(item => item.id === id);
+    // truyen data sang component con
+    dispatch(getAccountClick(obj));
+    history.push(`/account/${obj.id}`)
+
+  }
   return (
     <div className="account">
       <form >
@@ -53,13 +96,9 @@ prop,
           {/* {
             true ? 'a' : 'b'
           } */}
-          <Button>
-          <Link style={{color:'#fff'}} to={
-                        {
-                          pathname:`/account`,
-                        }
-                      }>Add</Link>
-          </Button>
+          <div>
+            <button type="button" className="btn-add" onClick={e => addItem()}>Add Item</button>
+          </div>
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -73,20 +112,22 @@ prop,
             </thead>
             <tbody>
               {
-                data.map(item => <tr key={item.id}>
-                  <td >{item.id}</td>
+                data.map((item, index) => <tr key={item.id}>
+                  <td >{index + 1}</td>
                   <td >{item.account}</td>
                   <td >{item.name}</td>
                   <td >{item.email}</td>
                   <td >{item.phone}</td>
                   <td >
                     <div className="col-md-6">
-                      <Link to={
+                      {/* <Link to={
                         {
-                          pathname:`/account/${item.id}`,
-                          state:{id:item.id}
+                          pathname: `/account/${item.id}`,
+                          state: { id: item.id }
                         }
-                      }>Edit</Link>
+                      }>Edit</Link> */}
+
+                      <button type="button" className="btn-edit" onClick={e => editItem(item.id)}>Edit</button>
                     </div>
                     <div className="col-md-6">
                       <button type="button" className="btn-delete" onClick={e => deleteItem(item.id)}>Delete</button>

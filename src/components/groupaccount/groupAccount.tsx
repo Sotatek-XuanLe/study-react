@@ -1,34 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Row, Col, Container } from 'react-bootstrap';
-interface GroupAccount {
-    id?: string,
-    title?: string,
-    description?: string,
-}
-const GroupAccount: React.FC<GroupAccount> = (
+import { Table, Row, Container } from 'react-bootstrap';
+const GroupAccount: React.FC = (
 ) => {
     const [dataList, setData] = useState([]);
+    const [dataListClone, setDataClone] = useState([]);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(10);
-    const [searchItem, setSearch]: [string, (search: string) => void] = React.useState("");
+    const [searchItem, setSearchItem] = useState('');
     const prePage = (prevPage: number) => {
         setPage((prevPage) => prevPage - 1);
     };
-
     const nextPage = (nextPage: number) => {
         setPage((nextPage) => nextPage + 1);
     };
     const changeSearch = (e: any) => {
-        console.log('1,dataList',dataList);
         const value = e;
-        if(value.length > 0){
-            const dataClone = [...dataList]
-            const dataClone2 = dataClone.filter((item:any)=> item.title === value);
-            setData(dataClone2);
-            
-        } else {
-            setData(dataList);
+        if (value.length > 0) {
+            const dataClone = [...dataListClone]
+            const dataClone2 = dataClone.filter((item: any) => item.title === value);
+            console.log(dataClone2, 'dataClone2');
+            return setDataClone(dataClone2);
         }
+        setDataClone(dataList);
     }
     useEffect(() => {
         async function getListData() {
@@ -45,6 +38,9 @@ const GroupAccount: React.FC<GroupAccount> = (
         }
         getListData()
     }, [page]);
+    useEffect(() => {
+        setDataClone(dataList);
+    }, [dataList.length])
     return (
         <div>
             <Container>
@@ -63,7 +59,7 @@ const GroupAccount: React.FC<GroupAccount> = (
                         </thead>
                         <tbody>
                             {
-                                dataList.map((item: any) => <tr key={item.id}>
+                                dataListClone.map((item: any) => <tr key={item.id}>
                                     <td >{item.author}</td>
                                     <td >{item.title}</td>
                                     <td >{item.description}</td>
