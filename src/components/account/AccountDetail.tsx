@@ -7,7 +7,7 @@ import { useAppDispatch } from '../../store/hook';
 import { useAppSelector } from '../../store/hook';
 import { saveBeginEdit } from '../../store/account';
 import { useHistory } from 'react-router';
-import { idText } from 'typescript';
+import { toast } from 'react-toastify';
 // import { useCookies } from 'react-cookie';
 
 interface Study {
@@ -98,7 +98,10 @@ const AccountDetail: React.FC<Study> = (
     localStorage.setItem("arrs", JSON.stringify(objStorage));
     // truyen data sang component cha
     dispatch(saveBeginEdit(obj));
-    history.push('/account');
+    toast.success("Add Success !", {
+      position: toast.POSITION.TOP_RIGHT
+    });
+    // history.push('/account');
   };
 
   // set value name

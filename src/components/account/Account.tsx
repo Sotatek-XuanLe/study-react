@@ -18,7 +18,6 @@ const Account: React.FC<Study> = (
   prop,
 ) => {
   const [data2] = useState([localStorage.getItem('arrs')]);
-  const [data3] = useState([JSON.parse(localStorage.getItem('arrs') || '') ]);
   const [data, setData] = useState([
     {
       id: 1,

@@ -3,6 +3,9 @@ import { Switch } from 'react-router-dom';
 import routers from './router/router';
 import './App.css';
 import Menu from './components/menu/Menu';
+import Home from './components/menu/Home';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Study {
   name?: string,
@@ -12,16 +15,19 @@ interface Study {
 const App: React.FC<Study> = (
 
 ) => {
+  const auth = localStorage.getItem("token");
   return (
     <div>
-      <Menu />
-      <Switch>
-        {Object.keys(routers).map((key) => {
-          //@ts-ignore
-          const route = routers[key];
-          return <route.route key={route.path} {...route} />;
-        })}
-      </Switch>
+      {auth ?
+        <Switch>
+          {Object.keys(routers).map((key) => {
+            //@ts-ignore
+            const route = routers[key];
+            return <route.route key={route.path} {...route} />;
+          })}
+        </Switch>
+        : <Home />}
+      <ToastContainer closeButton={false} />
     </div>
   )
 }
