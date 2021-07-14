@@ -22,7 +22,7 @@ const routers =
 {
     home: {
         exact: true,
-        path: paths.account,
+        path: paths.home,
         component: Home,
         route: PrivateRoute
     },

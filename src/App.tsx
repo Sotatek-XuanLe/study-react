@@ -18,7 +18,8 @@ const App: React.FC<Study> = (
   const auth = localStorage.getItem("token");
   return (
     <div>
-      {auth ?
+        123:{auth}
+        {!!auth ? <Menu /> : <Home/> }
         <Switch>
           {Object.keys(routers).map((key) => {
             //@ts-ignore
@@ -26,7 +27,6 @@ const App: React.FC<Study> = (
             return <route.route key={route.path} {...route} />;
           })}
         </Switch>
-        : <Home />}
       <ToastContainer closeButton={false} />
     </div>
   )
