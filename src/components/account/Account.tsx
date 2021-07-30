@@ -39,6 +39,20 @@ const Account: React.FC<Study> = (
       name: "Tran Quang Hai",
       phone: "0987666555",
       email: "tranquanghai@gmail.com"
+    },
+    {
+      id: 4,
+      account: "xuanlh",
+      name: "Le Hoang Xuan",
+      phone: "0336137311",
+      email: "lehoangxuan@gmail.com"
+    },
+    {
+      id: 5,
+      account: "hiepmd",
+      name: "Mai Danh Hiep",
+      phone: "0125252563",
+      email: "maidanhhiep@gmail.com"
     }
   ]);
   const history = useHistory();
